@@ -7,6 +7,7 @@ import {
   Source,
   VoivodeshipsSplit,
   Contributors,
+  DataAccordion
 } from '..';
 
 import { useStyletron } from 'baseui';
@@ -34,7 +35,7 @@ export default function Desktop() {
       <Layer>
         <Map className={useDarkTheme ? 'dark-theme' : ''} />
       </Layer>
-      <Layer>
+      {/* <Layer>
         <Block
           position={'fixed'}
           bottom={0}
@@ -59,7 +60,7 @@ export default function Desktop() {
             <DailyGrowth />
           </Block>
         </Block>
-      </Layer>
+      </Layer> */}
       <Layer>
         <Block
           position={'fixed'}
@@ -68,7 +69,8 @@ export default function Desktop() {
           width={['100%', '100%', 'auto']}
           margin={['0', '0', '20px']}
         >
-          <Figures />
+          {/* <Figures /> */}
+          <DataAccordion/>
         </Block>
       </Layer>
       <Layer>

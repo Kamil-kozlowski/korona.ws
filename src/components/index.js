@@ -7,3 +7,4 @@ export { default as Source } from './Source/Source';
 export { default as DailyGrowth } from './DailyGrowth/DailyGrowth';
 export { default as Layout } from './Layout/Layout';
 export { default as Contributors } from './Contributors/Contributors';
+export { default as DataAccordion} from './DataAccordion/DataAccordion';

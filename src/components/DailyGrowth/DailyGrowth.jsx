@@ -63,8 +63,8 @@ function accumulateData(data) {
   });
 }
 
-export default function DailyGrowth() {
-  const { cases, deaths, cures, isLoading } = useData();
+export function DailyGrowthCharts() {
+  const { cases, deaths, cures } = useData();
 
   const { t } = useTranslation();
   const [groupedData, setGroupedData] = useState(null);
@@ -88,6 +88,102 @@ export default function DailyGrowth() {
   }, [cases, deaths, cures]);
 
   return (
+    <Tabs
+      onChange={({ activeKey }) => {
+        setActiveKey(activeKey);
+      }}
+      activeKey={activeKey}
+      overrides={{
+        TabContent: {
+          style: {
+            padding: '10px 0 0 0',
+          },
+        },
+      }}
+    >
+      <ResponsiveTab title={t('casesOverall')}>
+        <StyledBody>
+          <ResponsiveContainer height={180}>
+            <LineChart data={groupedData}>
+              <XAxis dataKey='date' />
+              <YAxis hide={true} />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: theme.colors.backgroundPrimary,
+                  borderColor: theme.colors.backgroundTertiary,
+                }}
+                cursor={{ fill: theme.colors.backgroundTertiary }}
+              />
+              <Line
+                name={t('confirmedCasesShort')}
+                type='monotone'
+                dataKey={CASES_KEY}
+                strokeWidth={2}
+                stroke={theme.colors.negative}
+                dot={false}
+              />
+              <Line
+                name={t('deaths')}
+                type='monotone'
+                dataKey={DEATHS_KEY}
+                strokeWidth={2}
+                stroke={theme.colors.primary}
+                dot={false}
+              />
+              <Line
+                name={t('cured')}
+                type='monotone'
+                dataKey={CURES_KEY}
+                strokeWidth={2}
+                stroke={theme.colors.positive}
+                dot={false}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </StyledBody>
+      </ResponsiveTab>
+      <ResponsiveTab title={t('casesDaily')}>
+        <StyledBody>
+          <ResponsiveContainer height={180}>
+            <BarChart data={groupedData}>
+              <XAxis dataKey='date' />
+              <YAxis hide={true} />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: theme.colors.backgroundPrimary,
+                  borderColor: theme.colors.backgroundTertiary,
+                }}
+                cursor={{ fill: theme.colors.backgroundTertiary }}
+              />
+              <Bar
+                name={t('confirmedCasesShort')}
+                stackId={STACK_PER_DATE_ID}
+                dataKey={DAILY_CASES_KEY}
+                fill={theme.colors.negative}
+              />
+              <Bar
+                name={t('deaths')}
+                stackId={STACK_PER_DATE_ID}
+                dataKey={DAILY_DEATH_KEY}
+                fill={theme.colors.primary}
+              />
+              <Bar
+                name={t('cured')}
+                stackId={STACK_PER_DATE_ID}
+                dataKey={DAILY_CURES_KEY}
+                fill={theme.colors.positive}
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </StyledBody>
+      </ResponsiveTab>
+    </Tabs>
+  );
+}
+
+export default function DailyGrowth() {
+  const { isLoading } = useData();
+  return (
     <StyledCard
       style={($theme) => ({
         [$theme.mediaQuery.medium]: {
@@ -98,97 +194,8 @@ export default function DailyGrowth() {
       {isLoading ? (
         <Loader />
       ) : (
-        <Tabs
-          onChange={({ activeKey }) => {
-            setActiveKey(activeKey);
-          }}
-          activeKey={activeKey}
-          overrides={{
-            TabContent: {
-              style: {
-                padding: '10px 0 0 0',
-              },
-            },
-          }}
-        >
-          <ResponsiveTab title={t('casesOverall')}>
-            <StyledBody>
-              <ResponsiveContainer height={180}>
-                <LineChart data={groupedData}>
-                  <XAxis dataKey='date' />
-                  <YAxis hide={true} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: theme.colors.backgroundPrimary,
-                      borderColor: theme.colors.backgroundTertiary,
-                    }}
-                    cursor={{ fill: theme.colors.backgroundTertiary }}
-                  />
-                  <Line
-                    name={t('confirmedCasesShort')}
-                    type='monotone'
-                    dataKey={CASES_KEY}
-                    strokeWidth={2}
-                    stroke={theme.colors.negative}
-                    dot={false}
-                  />
-                  <Line
-                    name={t('deaths')}
-                    type='monotone'
-                    dataKey={DEATHS_KEY}
-                    strokeWidth={2}
-                    stroke={theme.colors.primary}
-                    dot={false}
-                  />
-                  <Line
-                    name={t('cured')}
-                    type='monotone'
-                    dataKey={CURES_KEY}
-                    strokeWidth={2}
-                    stroke={theme.colors.positive}
-                    dot={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </StyledBody>
-          </ResponsiveTab>
-          <ResponsiveTab title={t('casesDaily')}>
-            <StyledBody>
-              <ResponsiveContainer height={180}>
-                <BarChart data={groupedData}>
-                  <XAxis dataKey='date' />
-                  <YAxis hide={true} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: theme.colors.backgroundPrimary,
-                      borderColor: theme.colors.backgroundTertiary,
-                    }}
-                    cursor={{ fill: theme.colors.backgroundTertiary }}
-                  />
-                  <Bar
-                    name={t('confirmedCasesShort')}
-                    stackId={STACK_PER_DATE_ID}
-                    dataKey={DAILY_CASES_KEY}
-                    fill={theme.colors.negative}
-                  />
-                  <Bar
-                    name={t('deaths')}
-                    stackId={STACK_PER_DATE_ID}
-                    dataKey={DAILY_DEATH_KEY}
-                    fill={theme.colors.primary}
-                  />
-                  <Bar
-                    name={t('cured')}
-                    stackId={STACK_PER_DATE_ID}
-                    dataKey={DAILY_CURES_KEY}
-                    fill={theme.colors.positive}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </StyledBody>
-          </ResponsiveTab>
-        </Tabs>
-      )}
+          <DailyGrowthCharts />
+        )}
     </StyledCard>
   );
 }

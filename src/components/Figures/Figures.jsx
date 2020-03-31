@@ -119,18 +119,18 @@ export default function Figures() {
   const [, theme] = useStyletron();
 
   return (
-    <StyledCard
-      title={t('coronavirusInPoland')}
-      style={($theme) => ({
-        [$theme.mediaQuery.medium]: {
-          maxHeight: 'calc(100vh - 80px)',
-          overflow: 'auto',
-        },
-        [$theme.mediaQuery.large]: {
-          width: '320px',
-        },
-      })}
-    >
+    // <StyledCard
+    //   title={t('coronavirusInPoland')}
+    //   style={($theme) => ({
+    //     [$theme.mediaQuery.medium]: {
+    //       maxHeight: 'calc(100vh - 80px)',
+    //       overflow: 'auto',
+    //     },
+    //     [$theme.mediaQuery.large]: {
+    //       width: '320px',
+    //     },
+    //   })}
+    // >
       <StyledBody>
         <Figure
           data={deaths}
@@ -212,6 +212,6 @@ export default function Figures() {
           </>
         )}
       </StyledBody>
-    </StyledCard>
+    // </StyledCard>
   );
 }
